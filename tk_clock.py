@@ -92,23 +92,23 @@ class MyFrame(tk.Frame):
             self.clock.delete("HOUR")
             self.clock.create_line(x0,y0,x,y, width=3, fill="green", tag="HOUR")
 
-            self.start = False
-            #
-            # 日付の描画, 秒が変わるか、ボタンが押されたとき
-            #
-            if self.sec2 != time.localtime().tm_sec or self.toggled:
-                self.sec2 = time.localtime().tm_sec
-                self.toggled = False
-                x = self.size/2
-                y = self.size/2 + 20
-                text = time.strftime('%Y/%m/%d %H:%M:%S')
-                self.clock.delete("TIME")
-                if self.show_date:
-                    self.clock.create_text(x, y, text=text, font=("",12), fill="black", tag="TIME")
-            #
-            # 100 ミリ秒後に再度呼び出す
-            #
-            self.after(100, self.display)
+        self.start = False
+        #
+        # 日付の描画, 秒が変わるか、ボタンが押されたとき
+        #
+        if self.sec2 != time.localtime().tm_sec or self.toggled:
+            self.sec2 = time.localtime().tm_sec
+            self.toggled = False
+            x = self.size/2
+            y = self.size/2 + 20
+            text = time.strftime('%Y/%m/%d %H:%M:%S')
+            self.clock.delete("TIME")
+            if self.show_date:
+                self.clock.create_text(x, y, text=text, font=("",12), fill="black", tag="TIME")
+        #
+        # 100 ミリ秒後に再度呼び出す
+        #
+        self.after(100, self.display)
 
 root = tk.Tk()
 f = MyFrame(root)
