@@ -5,5 +5,6 @@ https://repository.kulib.kyoto-u.ac.jp/dspace/bitstream/2433/245698/1/Version202
 
 実行環境：ターミナル上でpython3 (CPython)を使用  
          エディタでコードを書いてターミナル上で実行  
+         python idle も使用
          自宅でもWSL上のUbuntu18.04とXwindowsで同様に実行  
          
