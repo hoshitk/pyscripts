@@ -6,7 +6,7 @@ import time
 
 #
 # Frame を拡張したクラス
-#
+# def __init__ の定義が長いよ！次のdef toggle()まであるよ！
 class MyFrame(tk.Frame):
     def __init__(self,master = None):
         super().__init__(master)
@@ -16,7 +16,7 @@ class MyFrame(tk.Frame):
 #
         self.size = 200
         self.clock = tk.Canvas(self, width=self.size, height=self.size, background="white")
-        self.clock.grid(row=0, column=0)
+        self.clock.grid(row=0, column=0, columnspan = 2)
 #
 # 文字盤の描画
 #
@@ -31,15 +31,22 @@ class MyFrame(tk.Frame):
         self.b = tk.Button(self, text="Show Date", font=("",14), command = self.toggle)
         self.b.grid(row = 1, column = 0)
 #
-# 時刻の経過確認などの動作のためのインスタンス変数
+# 　秒針をオンオフするボタンの作成
 #
+        self.bs = tk.Button(self, text="Show Second", font=("",14), command = self.s_toggle)
+        self.bs.grid(row = 1, column = 1)
+#
+# 時刻の経過確認などの動作のためのインスタンス変数
+# mainloop()ではdisplay()を呼び続ける. self.startがTrueになるのもここだけ
         self.sec = time.localtime().tm_sec
         self.sec2 = time.localtime().tm_sec
         self.min = time.localtime().tm_min
         self.hour = time.localtime().tm_hour
         self.start = True
         self.show_date = False
+        self.show_second = False
         self.toggled = True
+        self.stoggled = True
 
     #
     # ボタンが押されたときのcall back
@@ -51,6 +58,16 @@ class MyFrame(tk.Frame):
             self.b.configure(text="hide date")
         self.show_date = not self.show_date
         self.toggled = True
+    #
+    # secondhandボタンが押されたときのcall back
+    #
+    def s_toggle(self):
+        if self.show_second:
+            self.bs.configure(text="show second")
+        else:
+            self.bs.configure(text="hide second")
+        self.show_second = not self.show_second
+        self.stoggled = True
 
     #
     # 変化する画面の描画
@@ -70,7 +87,8 @@ class MyFrame(tk.Frame):
             # 前の描画をタグで検索して消してから描画
             #
             self.clock.delete("SEC")
-            self.clock.create_line(x0,y0,x,y, width=1, fill="red", tag="SEC")
+            if self.show_second:  # show_secondがonなら描画
+                self.clock.create_line(x0,y0,x,y, width=1, fill="red", tag="SEC")
         #
         # 分針、時針の描画、１分毎、時針は分まで考慮
         #
@@ -101,7 +119,7 @@ class MyFrame(tk.Frame):
             self.toggled = False
             x = self.size/2
             y = self.size/2 + 20
-            text = time.strftime('%Y/%m/%d %H:%M:%S')
+            text = time.strftime('%Y/%m/%d (%a)\n             %p')
             self.clock.delete("TIME")
             if self.show_date:
                 self.clock.create_text(x, y, text=text, font=("",12), fill="black", tag="TIME")

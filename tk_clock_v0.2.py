@@ -6,7 +6,7 @@ import time
 
 #
 # Frame を拡張したクラス
-#
+# def __init__ の定義が長いよ！次のdef toggle()まであるよ！
 class MyFrame(tk.Frame):
     def __init__(self,master = None):
         super().__init__(master)
@@ -101,7 +101,7 @@ class MyFrame(tk.Frame):
             self.toggled = False
             x = self.size/2
             y = self.size/2 + 20
-            text = time.strftime('%Y/%m/%d %H:%M:%S')
+            text = time.strftime('%Y/%m/%d (%a)\n             %p')
             self.clock.delete("TIME")
             if self.show_date:
                 self.clock.create_text(x, y, text=text, font=("",12), fill="black", tag="TIME")
